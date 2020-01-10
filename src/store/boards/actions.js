@@ -1,4 +1,6 @@
 import { headers, APIURL/*, TESTURL*/ } from '../../config.js'
+import uuid from 'uuid/v4';
+console.log(uuid())
 
 //import { showError } from './error.js'
 
@@ -8,7 +10,7 @@ import { headers, APIURL/*, TESTURL*/ } from '../../config.js'
 
 export const POST_NEW_BOARD_OK = 'POST_NEW_BOARD_OK';
 // export const POST_NEW_FISH_FAIL = 'POST_NEW_FISH_FAIL';
-// export const EDIT_FISH_OK = 'EDIT_FISH_OK';
+export const EDIT_BOARD_OK = 'EDIT_BOARD_OK';
 // export const EDIT_FISH_FAIL = 'EDIT_FISH_FAIL';
 export const DELETE_BOARD_OK = 'DELETE_BOARD_OK';
 // export const DELETE_FISH_FAIL = 'DELETE_FISH_FAIL';
@@ -18,6 +20,7 @@ export const GET_BOARDS_FAIL = 'GET_BOARDS_FAIL';
 export const LOADING = 'LOADING';
 export const SAVING = 'SAVING';
 export const TOOGLE_ADD_FORM = 'TOOGLE_ADD_FORM';
+export const POST_NEW_CARD_OK = 'POST_NEW_CARD_OK';
 
 /*
  * action creators
@@ -39,7 +42,6 @@ export function getBoardsFail() {
 }
 
 export function getBoardOk(board) {
-	console.log(board)
 	return {
 		type: GET_BOARD_OK,
 		board,
@@ -51,6 +53,14 @@ export function addNewBoardOk(board) {
 	
 	return {
 		type: POST_NEW_BOARD_OK,
+		board,
+		saving: false
+	};
+}
+
+export function editBoardOk(board) {
+	return {
+		type: EDIT_BOARD_OK,
 		board,
 		saving: false
 	};
@@ -106,7 +116,6 @@ export function saving() {
 }
 
 export function showAddBoard(flag) {
-	console.log(2)
 	return {
 		type: TOOGLE_ADD_FORM,
 		showAddBoard: flag
@@ -161,6 +170,56 @@ export function getBoard(id) {
 	};
 }
 
+
+
+
+
+// Add new card
+export function addNewCard(card, board) {
+	return function(dispatch) {
+		card.id = uuid();
+		board.cards = [...board.cards, card]
+		dispatch(editBoard(board));
+	}
+}
+
+// Delete card
+export function deleteCard(cardId) {
+	return function(dispatch) {
+		board.cards = [...board.cards.filter(card => card.id !== cardId)]
+		dispatch(editBoard(board));
+	}
+}
+
+
+// DnD actions handler
+export function sortCards(board, {source, destination, draggableId}) {
+	return function(dispatch) {
+
+			let new_cards = [...board.cards];
+			const el_to_move = new_cards.splice(board.cards.findIndex(card => card.id === draggableId), 1)[0];
+			el_to_move.in_list = destination.droppableId;
+			const target_idx = destination.index;
+			let counter = 0;
+			const put_idx = new_cards.findIndex(el => {
+				if(el.in_list === destination.droppableId) {
+					if(counter === target_idx) {
+						return true;
+					} else {
+						counter++;
+					}
+				}
+				return false;
+			});
+			new_cards.splice(put_idx, 0, el_to_move);
+			board.cards = new_cards;
+
+		dispatch(editBoardOk(board));
+		dispatch(editBoard(board, true));
+	}
+}
+
+// Add new board
 export function addNewBoard(board) {
 	return function(dispatch) {
 		dispatch(saving());
@@ -186,29 +245,33 @@ export function addNewBoard(board) {
 	};
 }
 
-// export function editFish(fish) {
-// 	return function(dispatch) {
-// 		dispatch(saving());
+// Edit board
+export function editBoard(board, silent) {
 
-// 		return fetch(`${APIURL}/fishes/${fish._id}`, {
-// 			method: 'PUT',
-// 			headers,
-// 			mode: 'cors',
-// 			body: JSON.stringify(fish)
-// 		})
-// 			.then((resp) => {
-// 				return resp.json();
-// 			})
-// 			.then((data) => {
-// 				dispatch(editFishOk(data));
-// 			})
-// 			.catch((error) => {
-// 				dispatch(showError(error));
-// 				dispatch(editFishFail());
-// 			});
-// 	};
-// }
+	return function(dispatch) {
+		dispatch(saving());
+		console.log('run3')
+		return fetch(`${APIURL}/boards/${board._id}`, {
+			method: 'PUT',
+			headers,
+			mode: 'cors',
+			body: JSON.stringify(board)
+		})
+			.then((resp) => {
+				return resp.json();
+			})
+			.then((data) => {
+				!silent && dispatch(editBoardOk(data));
+			})
+			.catch((error) => {
+				//dispatch(showError(error));
+				//dispatch(editFishFail());
+				silent && dispatch(getBoard(board._id));
+			});
+	};
+}
 
+// Delete board
 export function deleteBoard(boardId) {
 	return function(dispatch) {
 		dispatch(saving());

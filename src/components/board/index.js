@@ -1,7 +1,8 @@
 import React, {useEffect, Fragment} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Redirect } from "react-router-dom";
-import { getBoard, deleteBoard } from "../../store/boards/actions";
+import { DragDropContext } from "react-beautiful-dnd";
+import { getBoard, deleteBoard, addNewCard, sortCards } from "../../store/boards/actions";
 import Header from "../common/header";
 import RemoveButton from "../common/removeButton";
 import List from "./list";
@@ -9,6 +10,7 @@ import List from "./list";
 function Board() {
   let { boardId } = useParams();
   const board = useSelector(state => state.boards.board);
+  const cards = useSelector(state => state.boards.board.cards);
   const loading = useSelector(state => state.boards.loading);
   const saving = useSelector(state => state.boards.loading);
   const dispatch = useDispatch();
@@ -17,18 +19,28 @@ function Board() {
     dispatch(getBoard(boardId))
   }, [])
 
+  const handleAddCard = (card) => {
+    dispatch(addNewCard(card, board))
+  }
+
   const handleRemoveBoard = (id) => {
     dispatch(deleteBoard(id))
+  }
+
+  const onDragEndHandler = (result) => {
+    dispatch(sortCards(board, result));
   }
 
 
   const renderLists = () => {
     return (
-      <div className="columns">
-        {board.lists && board.lists.map ((list) => {
-          return (<List key={list._id} list={list} cards={board.cards} />)
-        })}
-      </div>
+      <DragDropContext onDragEnd={onDragEndHandler}>
+        <div className="columns">
+          {board.lists && board.lists.map ((list) => {
+            return (<List key={list.id} list={list} cards={cards} onAdd={handleAddCard} />)
+          })}
+        </div>
+      </DragDropContext>
     )
   }
 
