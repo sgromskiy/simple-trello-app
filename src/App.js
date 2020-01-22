@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { readTheme } from './store/settings/actions';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,9 +15,16 @@ import './App.css';
 
 
 function App() {
+  const theme = useSelector(state => state.settings.theme);
+  const dispatch = useDispatch();
+  const themeName = `app ${theme}`;
+  useEffect(() => {
+    dispatch(readTheme())
+  }, [])
+
 
   return (
-    <div className="App">
+    <div className={themeName}>
     <Router>
       <Switch>
         <Route exact path="/">

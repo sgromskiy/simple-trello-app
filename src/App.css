@@ -1,3 +1,17 @@
+.app.light {
+  --header-bg: SteelBlue;
+  --header-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);
+  --bg: white;
+  --page-title: #333;
+}
+
+.app.dark {
+  --header-bg: Crimson;
+  --bg: black;
+  --page-title: white;
+  --header-shadow: 0 0px 10px 0 rgba(255,255,255,1);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -8,11 +22,20 @@ a {
   color: inherit;
 }
 
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
 #header {
-  box-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);
+  box-shadow: var(--header-shadow);
   padding: 20px;
   display: flex;
-  background: SteelBlue;
+  background: var(--header-bg);
+}
+
+h2 {
+  color: var(--page-title);
 }
 
 .logo {
@@ -200,4 +223,132 @@ main {
     stroke-dashoffset: 280;
     transform: rotate(360deg);
   }
+}
+
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 25px;
+}
+
+.board-header h2 {margin: 0;}
+
+.btn {
+  display: block;
+  background: SteelBlue;
+  border-radius: 5px;
+  border: none;
+  padding: 7px 15px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn:hover {
+  opacity: .9;
+}
+
+.btn[disabled] {
+  background: grey !important;
+}
+
+.columns {
+  display: flex;
+}
+
+.list {
+  max-width: 230px;
+  padding: 10px;
+  background: #ebecf0;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+}
+.list h2{
+  font-size: 18px;
+  line-height: 1.61;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  margin: 0 0 15px;
+  padding-top: 10px;
+}
+
+.add-item form{
+  display: flex;
+  padding-top: 10px;
+}
+
+.add-board-button input,
+.add-item input {
+  min-width: 50px;
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 3px 5px;
+  border: 1px solid #ccc;
+}
+
+.add-board-button input {
+  margin: 0;
+}
+
+.add-item input.error {
+  border-color: red;
+}
+
+.droppable {
+  background: #ebecf0;
+  border-radius: 5px;
+  min-height: 100px;
+  padding: 5px 5px 1px;
+  border: 2px dashed transparent;
+  flex-grow: 1;
+}
+
+.droppable:hover {
+  border: 2px dashed #bbb;
+}
+
+.draggable {
+  background: #fff;
+  box-shadow: 1px 1px 0 0 #999;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.draggable p {
+  margin: 0;
+}
+
+/*div[data-rbd-placeholder-context-id] {
+  background: #f00;
+}*/
+
+
+.columns .btn-remove {
+  display: inline-flex;
+  width: 25px;
+  height: 25px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 25px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
 }

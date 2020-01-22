@@ -1,6 +1,5 @@
 import { headers, APIURL/*, TESTURL*/ } from '../../config.js'
 import uuid from 'uuid/v4';
-console.log(uuid())
 
 //import { showError } from './error.js'
 
@@ -65,6 +64,15 @@ export function editBoardOk(board) {
 		saving: false
 	};
 }
+
+export function preEditBoardOk(board) {
+	return {
+		type: EDIT_BOARD_OK,
+		board
+	};
+}
+
+
 
 // export function addNewFishFail() {
 // 	return {
@@ -184,13 +192,30 @@ export function addNewCard(card, board) {
 }
 
 // Delete card
-export function deleteCard(cardId) {
+export function deleteCard(cardId, board) {
 	return function(dispatch) {
 		board.cards = [...board.cards.filter(card => card.id !== cardId)]
 		dispatch(editBoard(board));
 	}
 }
 
+// aAdd List
+export function addNewList(list, board) {
+	return function(dispatch) {
+		list.id = uuid();
+		board.lists = [...board.lists, list]
+		dispatch(editBoard(board));
+	}
+}
+
+// Delete list
+export function deleteList(listId, board) {
+	return function(dispatch) {
+		board.lists = [...board.lists.filter(list => list.id !== listId)];
+		board.cards = [...board.cards.filter(card => card.in_list !== listId)];
+		dispatch(editBoard(board));
+	}
+}
 
 // DnD actions handler
 export function sortCards(board, {source, destination, draggableId}) {
@@ -214,10 +239,42 @@ export function sortCards(board, {source, destination, draggableId}) {
 			new_cards.splice(put_idx, 0, el_to_move);
 			board.cards = new_cards;
 
-		dispatch(editBoardOk(board));
+		dispatch(preEditBoardOk(board));
 		dispatch(editBoard(board, true));
 	}
 }
+
+
+// Edit board
+export function editBoard(board, silent) {
+
+	return function(dispatch) {
+		dispatch(saving());
+		console.log('run3')
+		return fetch(`${APIURL}/boards/${board._id}`, {
+			method: 'PUT',
+			headers,
+			mode: 'cors',
+			body: JSON.stringify(board)
+		})
+			.then((resp) => {
+				return resp.json();
+			})
+			.then((data) => {
+				if(silent) {
+					dispatch({type: "SAVING", saving: false});
+				} else {
+					dispatch(editBoardOk(data));
+				}
+			})
+			.catch((error) => {
+				//dispatch(showError(error));
+				//dispatch(editFishFail());
+				silent && dispatch(getBoard(board._id));
+			});
+	};
+}
+
 
 // Add new board
 export function addNewBoard(board) {
@@ -245,31 +302,6 @@ export function addNewBoard(board) {
 	};
 }
 
-// Edit board
-export function editBoard(board, silent) {
-
-	return function(dispatch) {
-		dispatch(saving());
-		console.log('run3')
-		return fetch(`${APIURL}/boards/${board._id}`, {
-			method: 'PUT',
-			headers,
-			mode: 'cors',
-			body: JSON.stringify(board)
-		})
-			.then((resp) => {
-				return resp.json();
-			})
-			.then((data) => {
-				!silent && dispatch(editBoardOk(data));
-			})
-			.catch((error) => {
-				//dispatch(showError(error));
-				//dispatch(editFishFail());
-				silent && dispatch(getBoard(board._id));
-			});
-	};
-}
 
 // Delete board
 export function deleteBoard(boardId) {

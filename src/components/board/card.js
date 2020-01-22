@@ -1,7 +1,8 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
+import RemoveButton from "../common/removeButton";
 
-function Card({card, index}) {
+function Card({card, index, onRemove, saving}) {
   const names = card.isDone ? 'card card-done' : 'card';
 
   
@@ -9,12 +10,13 @@ function Card({card, index}) {
     <Draggable draggableId={card.id} index={index}>
     {(provided) => 
       (
-        <div 
+        <div className="draggable"
           {...provided.draggableProps} 
           {...provided.dragHandleProps} 
           ref={provided.innerRef}
         >
           <p className={names}>{card.name}</p>
+          <RemoveButton id={card.id} onRemove={onRemove} saving={saving} />
         </div>
       )
     }

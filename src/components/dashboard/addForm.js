@@ -26,8 +26,8 @@ function AddForm(props) {
           <label className="blue"><input type="radio" name="color" value="blue"  ref={register} /> <span>blue</span></label>
         </div>
         <div className="buttons">
-          <button disabled={props.saving} onClick={onCancel} type="button">Cancel</button>
-          <button disabled={props.saving} type="submit">Save {props.saving && <Loading size="small" />}</button>
+          <button className="btn" disabled={props.saving} onClick={onCancel} type="button">Cancel</button>
+          <button className="btn" disabled={props.saving} type="submit">Save {props.saving && <Loading size="small" />}</button>
         </div>
       </form>
     </div>

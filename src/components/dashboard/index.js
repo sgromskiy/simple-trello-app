@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect} from "react";
 import Header from '../common/header';
+import Loading from '../common/loading';
 import { BoardCard } from './boardCard';
 import AddButton from './addButton';
 import AddForm from './addForm';
@@ -52,9 +53,9 @@ function Dashboard() {
     <Fragment>
       <Header />
       <main>
-        <h2>Dashboard</h2>
+        <h2>Dashboard {loading && <Loading size="small" />}</h2>
 
-        {loading ? <p>Loading...</p> : renderBoards()}
+        {!loading && renderBoards()}
         <div>{JSON.stringify(boards)}</div>
       </main>
     </Fragment>
