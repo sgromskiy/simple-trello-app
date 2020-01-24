@@ -21,7 +21,7 @@ function Header() {
   return (
     <header id="header">
       <div className="logo" alt="Trello">
-        <img src={logo} />
+        <img src={logo} alt="My trello" />
       </div>
       <ul>
         <WithLiNavLink to="/" activeOnlyWhenExact={true}>Dashboard</WithLiNavLink>

@@ -3,6 +3,8 @@
   --header-shadow: 0 3px 3px 0 rgba(0,0,0,0.4);
   --bg: white;
   --page-title: #333;
+  --card-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
+  --card-shadow-hover: 0 1px 7px 0 rgba(0,0,0,0.6);
 }
 
 .app.dark {
@@ -10,6 +12,8 @@
   --bg: black;
   --page-title: white;
   --header-shadow: 0 0px 10px 0 rgba(255,255,255,1);
+  --card-shadow: 0 1px 5px 0 rgba(255,255,255,0.6);
+  --card-shadow-hover: 0 1px 10px 0 rgba(255,255,255,1);
 }
 
 * {
@@ -21,10 +25,15 @@ body {
 a {
   color: inherit;
 }
+main {
+  flex-grow: 1;
+}
 
 .app {
   min-height: 100vh;
   background: var(--bg);
+  display: flex;
+  flex-direction: column;
 }
 
 #header {
@@ -70,7 +79,7 @@ h2 {
   text-decoration: none;
 }
 
-main {
+.container {
   max-width: 960px;
   margin: 0 auto;
   padding: 20px;
@@ -85,7 +94,7 @@ main {
 .board-card {
   flex-basis: 200px;
   border-radius: 5px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4);
+  box-shadow: var(--card-shadow);
   margin: 0 20px 20px 0;
   text-decoration: none;
   display: flex;
@@ -95,7 +104,7 @@ main {
   background: white;
 }
 .board-card:hover {
-  box-shadow: 0 1px 7px 0 rgba(0,0,0,0.6);
+  box-shadow: var(--card-shadow-hover);
 }
 .board-card.red{background-color: Crimson;}
 .board-card.green{background-color: MediumSeaGreen;}
@@ -236,7 +245,7 @@ main {
 
 .btn {
   display: block;
-  background: SteelBlue;
+  background: var(--header-bg);
   border-radius: 5px;
   border: none;
   padding: 7px 15px;
@@ -290,7 +299,7 @@ main {
   min-width: 50px;
   flex-grow: 1;
   margin-right: 10px;
-  padding: 3px 5px;
+  padding: 6px 5px;
   border: 1px solid #ccc;
 }
 
@@ -332,7 +341,9 @@ main {
   background: #f00;
 }*/
 
-
+.columns h2 {
+  color: #333;
+}
 .columns .btn-remove {
   display: inline-flex;
   width: 25px;
@@ -351,4 +362,47 @@ main {
 .buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.settings-page h3 {
+  font-size: 32px;
+  text-align: center;
+  color: var(--page-title);
+}
+.image-holder {
+  position: relative;
+  width: 600px;
+  margin: 0 auto;
+}
+.image-holder button {
+  font-size: 0;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  width: 24px;
+  height: 348px;
+  outline: none;
+}
+
+.image-holder .dark-side {
+  top: 492px;
+  left: 467px;
+}
+
+.image-holder .dark-side.active,
+.image-holder .dark-side:hover {
+  box-shadow: 0 0 100px 15px #cc0a0e;
+}
+
+.image-holder .light-side {
+  top: 492px;
+  left: 124px;
+  
+}
+
+.image-holder .light-side.active,
+.image-holder .light-side:hover {
+  box-shadow: 0 0 100px 15px #ab34ed;
 }

@@ -10,7 +10,7 @@ import {
 
 import Dashboard from './components/dashboard/';
 import Board from './components/board/';
-import Settings from './components/settings';
+import Settings from './components/settings/';
 import './App.css';
 
 

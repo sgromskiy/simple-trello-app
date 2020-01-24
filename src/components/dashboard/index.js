@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useCallback} from "react";
 import Header from '../common/header';
 import Loading from '../common/loading';
 import { BoardCard } from './boardCard';
@@ -12,23 +12,26 @@ import { getBoards, addNewBoard, showAddBoard } from "../../store/boards/actions
 
 function Dashboard() {
 
-  const boards = useSelector(state => state.boards.boards);
+  const boards = useSelector(state => state.boards.data);
   const loading = useSelector(state => state.boards.loading);
   const saving = useSelector(state => state.boards.saving);
   const isFormVisible = useSelector(state => state.boards.showAddBoard);
   const dispatch = useDispatch();
 
-  const addCard = (board) => {
-    dispatch(addNewBoard(board))
-  }
+  const addCard = useCallback(
+    (board) => dispatch(addNewBoard(board)),
+    [dispatch]
+  )
 
-  const showForm = () => {
-    dispatch(showAddBoard(true))
-  }
+  const showForm = useCallback(
+    () => dispatch(showAddBoard(true)),
+    [dispatch]
+  )
 
-  const hideForm = () => {
-    dispatch(showAddBoard(false))
-  }
+  const hideForm = useCallback(
+    () => dispatch(showAddBoard(false)),
+    [dispatch]
+  )
   
   useEffect(() => {
      dispatch(getBoards());
@@ -53,10 +56,12 @@ function Dashboard() {
     <Fragment>
       <Header />
       <main>
-        <h2>Dashboard {loading && <Loading size="small" />}</h2>
+        <div className="container">
+          <h2>Dashboard {loading && <Loading size="small" />}</h2>
 
-        {!loading && renderBoards()}
-        <div>{JSON.stringify(boards)}</div>
+          {!loading && renderBoards()}
+          <div>{JSON.stringify(boards)}</div>
+        </div>
       </main>
     </Fragment>
   );
