@@ -4,7 +4,7 @@ This DEMO project was bootstrapped with [Create React App](https://github.com/fa
 
 ## Used Scripts and Methods
 
-Project was build with React 16, Redux and React router. I used only functional compoonents and hooks. 
+Project was build with React 16, Redux and React router. I used only functional components and hooks. 
 
 ## Back-end
 
