@@ -2,6 +2,7 @@
   "name": "my-trello-app",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://sgromskiy.github.io/simple-trello-app/",
   "dependencies": {
     "react": "^16.12.0",
     "react-beautiful-dnd": "^12.2.0",
