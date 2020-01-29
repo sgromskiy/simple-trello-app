@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect, useCallback} from "react";
 import Header from '../common/header';
+import Debug from '../common/debug';
 import Loading from '../common/loading';
 import { BoardCard } from './boardCard';
 import AddButton from './addButton';
@@ -60,7 +61,7 @@ function Dashboard() {
           <h2>Dashboard {loading && <Loading size="small" />}</h2>
 
           {!loading && renderBoards()}
-          <div>{JSON.stringify(boards)}</div>
+          <Debug data={boards} />
         </div>
       </main>
     </Fragment>

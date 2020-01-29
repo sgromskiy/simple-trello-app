@@ -444,3 +444,14 @@ h2 {
   margin: 0;
   line-height: 30px;
 }
+
+.debug {
+  color: #999;
+  padding: 40px;
+}
+.debug pre {
+  display: none;
+}
+.debug input:checked + label + pre {
+  display: block;
+}

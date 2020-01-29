@@ -4,6 +4,7 @@ import { useParams, Redirect } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import { getBoard, deleteBoard, addNewCard, sortCards, addNewList, deleteCard, deleteList } from "../../store/board/actions";
 import Header from "../common/header";
+import Debug from "../common/debug";
 import RemoveButton from "../common/removeButton";
 import List from "./list";
 import AddItem from "./addItem";
@@ -93,7 +94,8 @@ const handleListRemove = useCallback(
           {(!loading && !board._id) && <p>Board not found</p>}
           {loading && <p>Loading...</p>}
           {(!loading && board._id) && renderLists()}
-          <div><pre>{JSON.stringify(board, null, 2)}</pre></div>
+
+          <Debug data={board} />
         </div>
       </main>
     </Fragment>
