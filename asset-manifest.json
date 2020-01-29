@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.9df720b5.chunk.css",
-    "main.js": "/static/js/main.47c64da2.chunk.js",
-    "main.js.map": "/static/js/main.47c64da2.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.5d51f42f.js",
-    "runtime-main.js.map": "/static/js/runtime-main.5d51f42f.js.map",
-    "static/js/2.870c7ad6.chunk.js": "/static/js/2.870c7ad6.chunk.js",
-    "static/js/2.870c7ad6.chunk.js.map": "/static/js/2.870c7ad6.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.a9b448e00a4d9002455494c5f0ae0227.js": "/precache-manifest.a9b448e00a4d9002455494c5f0ae0227.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.9df720b5.chunk.css.map": "/static/css/main.9df720b5.chunk.css.map",
-    "static/media/revan.png": "/static/media/revan.3f7ae562.png"
+    "main.css": "/simple-trello-app/static/css/main.9df720b5.chunk.css",
+    "main.js": "/simple-trello-app/static/js/main.562bfdf5.chunk.js",
+    "main.js.map": "/simple-trello-app/static/js/main.562bfdf5.chunk.js.map",
+    "runtime-main.js": "/simple-trello-app/static/js/runtime-main.eddd4b85.js",
+    "runtime-main.js.map": "/simple-trello-app/static/js/runtime-main.eddd4b85.js.map",
+    "static/js/2.303884d2.chunk.js": "/simple-trello-app/static/js/2.303884d2.chunk.js",
+    "static/js/2.303884d2.chunk.js.map": "/simple-trello-app/static/js/2.303884d2.chunk.js.map",
+    "index.html": "/simple-trello-app/index.html",
+    "precache-manifest.785a41e71ef8ef1c467163e20c1218bd.js": "/simple-trello-app/precache-manifest.785a41e71ef8ef1c467163e20c1218bd.js",
+    "service-worker.js": "/simple-trello-app/service-worker.js",
+    "static/css/main.9df720b5.chunk.css.map": "/simple-trello-app/static/css/main.9df720b5.chunk.css.map",
+    "static/media/revan.png": "/simple-trello-app/static/media/revan.3f7ae562.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.5d51f42f.js",
-    "static/js/2.870c7ad6.chunk.js",
+    "static/js/runtime-main.eddd4b85.js",
+    "static/js/2.303884d2.chunk.js",
     "static/css/main.9df720b5.chunk.css",
-    "static/js/main.47c64da2.chunk.js"
+    "static/js/main.562bfdf5.chunk.js"
   ]
 }
