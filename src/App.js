@@ -27,7 +27,7 @@ function App() {
   return (
     <div className={themeName}>
     <ErrorMessage />
-    <Router>
+    <Router basename="/simple-trello-app/">
       <Switch>
         <Route exact path="/">
           <Dashboard />
