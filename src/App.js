@@ -8,6 +8,7 @@ import {
   Redirect
 } from "react-router-dom";
 
+import ErrorMessage from './components/common/errorMessage';
 import Dashboard from './components/dashboard/';
 import Board from './components/board/';
 import Settings from './components/settings/';
@@ -25,6 +26,7 @@ function App() {
 
   return (
     <div className={themeName}>
+    <ErrorMessage />
     <Router>
       <Switch>
         <Route exact path="/">

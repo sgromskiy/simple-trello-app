@@ -1,18 +1,15 @@
 import { headers, APIURL/*, TESTURL*/ } from '../../config.js'
 import uuid from 'uuid/v4';
 
-//import { showError } from './error.js'
+import { showError } from '../errors/actions.js'
 
 /*
  * action types
  */
 
 
-// export const POST_NEW_FISH_FAIL = 'POST_NEW_FISH_FAIL';
 export const EDIT_BOARD_OK = 'EDIT_BOARD_OK';
-// export const EDIT_FISH_FAIL = 'EDIT_FISH_FAIL';
 export const DELETE_BOARD_OK = 'DELETE_BOARD_OK';
-// export const DELETE_FISH_FAIL = 'DELETE_FISH_FAIL';
 export const GET_BOARD_OK = 'GET_BOARD_OK';
 export const BOARD_LOADING = 'BOARD_LOADING';
 export const BOARD_SAVING = 'BOARD_SAVING';
@@ -45,28 +42,6 @@ export function preEditBoardOk(board) {
 	};
 }
 
-// export function addNewFishFail() {
-// 	return {
-// 		type: POST_NEW_FISH_FAIL,
-// 		saving: false
-// 	};
-// }
-
-// export function editFishOk(fish) {
-// 	return {
-// 		type: EDIT_FISH_OK,
-// 		fish,
-// 		saving: false
-// 	};
-// }
-
-// export function editFishFail() {
-// 	return {
-// 		type: EDIT_FISH_FAIL,
-// 		saving: false
-// 	};
-// }
-
 export function deleteBoardOk(boardId) {
 	return {
 		type: DELETE_BOARD_OK,
@@ -74,23 +49,17 @@ export function deleteBoardOk(boardId) {
 	};
 }
 
-// export function deleteFishFail() {
-// 	return {
-// 		type: DELETE_FISH_FAIL,
-// 	};
-// }
-
-export function loading() {
+export function loading(flag) {
 	return {
 		type: BOARD_LOADING,
-		loading: true
+		loading: flag
 	};
 }
 
-export function saving() {
+export function saving(flag) {
 	return {
 		type: BOARD_SAVING,
-		saving: true
+		saving: flag
 	};
 }
 
@@ -101,7 +70,7 @@ export function saving() {
 
 export function getBoard(id) {
 	return function(dispatch) {
-		dispatch(loading());
+		dispatch(loading(true));
 
 		return fetch(`${APIURL}/boards/${id}`, {
 			method: 'GET',
@@ -113,9 +82,9 @@ export function getBoard(id) {
 				dispatch(getBoardOk(data));
 			})
 			.catch(error => {
-				console.log('err')
-				//dispatch(getBoardFail());
-				//dispatch(showError(error));
+				console.dir(error)
+				dispatch(showError(error));
+				dispatch(loading(false));
 			});
 	};
 }
@@ -186,8 +155,7 @@ export function sortCards(board, {source, destination, draggableId}) {
 export function editBoard(board, silent) {
 
 	return function(dispatch) {
-		dispatch(saving());
-		console.log('run3')
+		dispatch(saving(true));
 		return fetch(`${APIURL}/boards/${board._id}`, {
 			method: 'PUT',
 			headers,
@@ -199,15 +167,15 @@ export function editBoard(board, silent) {
 			})
 			.then((data) => {
 				if(silent) {
-					dispatch({type: "BOARD_SAVING", saving: false});
+					dispatch(saving( false));
 				} else {
 					dispatch(editBoardOk(data));
 				}
 			})
 			.catch((error) => {
-				//dispatch(showError(error));
-				//dispatch(editFishFail());
 				silent && dispatch(getBoard(board._id));
+				dispatch(showError(error));
+				dispatch(saving(false));
 			});
 	};
 }
@@ -216,7 +184,7 @@ export function editBoard(board, silent) {
 // Delete board
 export function deleteBoard(boardId) {
 	return function(dispatch) {
-		dispatch(saving());
+		dispatch(saving(true));
 
 		return fetch(`${APIURL}/boards/${boardId}`, {
 			method: 'DELETE',
@@ -230,8 +198,8 @@ export function deleteBoard(boardId) {
 				dispatch(deleteBoardOk(data.result[0]));
 			})
 			.catch((error) => {
-				//dispatch(deleteFishFail());
-				//dispatch(showError(error));
+				dispatch(showError(error));
+				dispatch(saving(false));
 			});
 	};
 }

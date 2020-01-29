@@ -90,7 +90,9 @@ const handleListRemove = useCallback(
             <RemoveButton text="Delete Board" saving={saving} onRemove={handleRemoveBoard} id={boardId} />
           </div>
 
-          {loading ? <p>Loading...</p> : renderLists()}
+          {(!loading && !board._id) && <p>Board not found</p>}
+          {loading && <p>Loading...</p>}
+          {(!loading && board._id) && renderLists()}
           <div><pre>{JSON.stringify(board, null, 2)}</pre></div>
         </div>
       </main>

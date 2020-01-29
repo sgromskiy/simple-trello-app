@@ -1,17 +1,12 @@
 import { headers, APIURL/*, TESTURL*/ } from '../../config.js'
 
-//import { showError } from './error.js'
+import { showError } from '../errors/actions'
 
 /*
  * action types
  */
 
 export const POST_NEW_BOARD_OK = 'POST_NEW_BOARD_OK';
-// export const POST_NEW_FISH_FAIL = 'POST_NEW_FISH_FAIL';
-// export const EDIT_FISH_FAIL = 'EDIT_FISH_FAIL';
-
-// export const DELETE_FISH_FAIL = 'DELETE_FISH_FAIL';
-
 export const GET_BOARDS_OK = 'GET_BOARDS_OK';
 export const GET_BOARDS_FAIL = 'GET_BOARDS_FAIL';
 export const LOADING = 'LOADING';
@@ -47,45 +42,17 @@ export function addNewBoardOk(board) {
 	};
 }
 
-// export function addNewFishFail() {
-// 	return {
-// 		type: POST_NEW_FISH_FAIL,
-// 		saving: false
-// 	};
-// }
-
-// export function editFishOk(fish) {
-// 	return {
-// 		type: EDIT_FISH_OK,
-// 		fish,
-// 		saving: false
-// 	};
-// }
-
-// export function editFishFail() {
-// 	return {
-// 		type: EDIT_FISH_FAIL,
-// 		saving: false
-// 	};
-// }
-
-// export function deleteFishFail() {
-// 	return {
-// 		type: DELETE_FISH_FAIL,
-// 	};
-// }
-
-export function loading() {
+export function loading(flag) {
 	return {
 		type: LOADING,
-		loading: true
+		loading: flag
 	};
 }
 
-export function saving() {
+export function saving(flag) {
 	return {
 		type: SAVING,
-		saving: true
+		saving: flag
 	};
 }
 
@@ -102,7 +69,7 @@ export function showAddBoard(flag) {
 
 export function getBoards() {
 	return function(dispatch) {
-		dispatch(loading());
+		dispatch(loading(true));
 
 		return fetch(`${APIURL}/boards`, {
 			method: 'GET',
@@ -114,9 +81,8 @@ export function getBoards() {
 				dispatch(getBoardsOk(data));
 			})
 			.catch(error => {
-				console.log('err')
-				//dispatch(getBoardsFail());
-				//dispatch(showError(error));
+				dispatch(showError(error));
+				dispatch(loading(false));
 			});
 	};
 }
@@ -124,7 +90,7 @@ export function getBoards() {
 // Add new board
 export function addNewBoard(board) {
 	return function(dispatch) {
-		dispatch(saving());
+		dispatch(saving(true));
 
 		return fetch(`${APIURL}/boards`, {
 			method: 'POST',
@@ -136,13 +102,12 @@ export function addNewBoard(board) {
 				return resp.json();
 			})
 			.then((data) => {
-				console.log('4')
 				dispatch(addNewBoardOk(data));
 				dispatch(showAddBoard(false));
 			})
 			.catch((error) => {
-				//dispatch(showError(error));
-				//dispatch(addNewFishFail());
+				dispatch(showError(error));
+				dispatch(loading(false));
 			});
 	};
 }
